@@ -1,0 +1,78 @@
+[package]
+name = "khoj"
+version = "0.1.0"
+edition = "2021"
+authors = ["Khoj Contributors"]
+description = "A fast, offline, hybrid search engine for files - 'khoj' means 'search' in Hindi/Urdu"
+license = "MIT"
+
+[[bin]]
+name = "khoj"
+path = "src/main.rs"
+
+[lib]
+name = "khoj"
+path = "src/lib.rs"
+
+[dependencies]
+# Search & Indexing
+tantivy = "0.22"
+sqlx = { version = "0.8", features = ["runtime-tokio", "sqlite"] }
+
+# Vector/Embeddings
+ort = { version = "2.0.0-rc.10", default-features = false, features = ["download-binaries"] }
+ndarray = "0.16"
+tokenizers = "0.20"
+# Vector store - using simple in-memory store for offline operation
+# No external services required
+
+# File Handling
+walkdir = "2.5"
+notify = { version = "6.1", default-features = false, features = ["macos_fsevent"] }
+ignore = "0.4"
+mime_guess = "2.0"
+infer = "0.16"
+
+# Document Extraction
+pdf-extract = "0.7"
+docx-rs = "0.4"
+
+# Image Processing (for CLIP visual search)
+image = { version = "0.25", default-features = false, features = ["png", "jpeg", "gif", "webp"] }
+
+# CLI
+clap = { version = "4.5", features = ["derive", "cargo"] }
+indicatif = "0.17"
+colored = "2.1"
+
+# Web Server
+axum = "0.7"
+tower = "0.4"
+tower-http = { version = "0.5", features = ["fs", "cors"] }
+
+# Async & Parallelism
+tokio = { version = "1.40", features = ["full"] }
+rayon = "1.10"
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Utilities
+anyhow = "1.0"
+thiserror = "1.0"
+sha2 = "0.10"
+chrono = { version = "0.4", features = ["serde"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+dirs = "5.0"
+
+[dev-dependencies]
+tempfile = "3.12"
+criterion = "0.5"
+
+[profile.release]
+lto = true
+codegen-units = 1
+opt-level = 3
+strip = true
