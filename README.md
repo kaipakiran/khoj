@@ -1,4 +1,4 @@
-# खोज (Find)
+# खोज (Search)
 
 A fast, offline, lightweight hybrid search engine for files with semantic understanding.
 
